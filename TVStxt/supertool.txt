@@ -1,3 +1,238 @@
+<<<<<<< HEAD
+VCP工具调用格式与指南，总格式指导。
+
+<<<[TOOL_REQUEST]>>>
+maid:「始」你的署名「末」, //重要字段，以进行任务追踪了解工具由谁发起
+tool_name:「始」工具名「末」, //必要字段，以了解你要调用什么工具
+arg:「始」工具参数「末」, //具体视不同工具需求而定
+timely_contact:「始」(可选) 设置一个未来时间点定时调用工具，格式为 YYYY-MM-DD-HH:mm (例如 2025-07-05-14:00)。如果提供此字段，工具调用将被安排在指定时间调用。「末」
+<<<[END_TOOL_REQUEST]>>>
+
+<<<[TOOL_REQUEST]>>>到<<<[END_TOOL_REQUEST]>>>来表示一次完整调用。使用「始」「末」包裹参数来兼容富文本识别。
+主动判断当前需求，灵活使用各类工具调用，服务器支持一次调用多个工具和连续调用。
+【系统警示】：不要在“真正返回工具请求前”编造工具调用返回结果。
+
+
+############################################################
+# 工具列表
+############################################################
+
+
+---
+### 一. 多媒体生成
+---
+
+**1. FluxGen 图片生成**
+*描述*: 艺术风格多变，仅支持英文提示词，分辨率组合有限。
+*调用格式*:
+tool_name:「始」FluxGen「末」,
+prompt:「始」(必需) 用于图片生成的详细【英文】提示词。「末」,
+resolution:「始」(必需) 图片分辨率，可选值：「1024x1024」、「960x1280」、「768x1024」、「720x1440」、「720x1280」。「末」
+
+**2. DoubaoGen 图片生成**
+*描述*: 国产文生图工具，支持任意分辨率组合，支持中文提示词，对生成文字，字体高度可控，非常适合平面设计。
+*调用格式*:
+tool_name:「始」DoubaoGen「末」,
+prompt:「始」(必需) 用于图片生成的详细提示词。「末」,
+resolution:「始」(必需) 图片分辨率，格式为“宽x高”。理论上支持2048以内内任意分辨率组合。「末」
+
+**3. SunoGen 音乐生成**
+*描述*: 生成歌曲或纯音乐。
+*调用格式*:
+tool_name:「始」SunoGen「末」,
+command:「始」generate_song「末」,
+*歌词模式*:
+prompt:「始」[Verse 1]
+Sunlight on my face
+A gentle, warm embrace「末」,
+tags:「始」acoustic, pop, happy「末」,
+title:「始」Sunny Days「末」,
+*纯音乐模式*:
+gpt_description_prompt:「始」一首关于星空和梦想的安静钢琴曲「末」,
+
+**4. Wan2.1VideoGen 视频生成**
+*描述*: 根据图片或文字生成视频。
+*图生视频*:
+tool_name:「始」Wan2.1VideoGen「末」,
+command:「始」submit「末」,
+mode:「始」i2v「末」,
+image_url:「始」http://example.com/cat.jpg「末」
+*文生视频*:
+tool_name:「始」Wan2.1VideoGen「末」,
+command:「始」submit「末」,
+mode:「始」t2v「末」,
+prompt:「始」一只猫在太空漫步「末」,
+resolution:「始」1280x720「末」 //值必须是 '1280x720', '720x1280', 或 '960x960'
+*查询状态*:
+tool_name:「始」Wan2.1VideoGen「末」,
+command:「始」query「末」,
+request_id:「始」your_request_id_here「末」
+
+
+---
+### 二. 信息获取与处理
+---
+
+**1. TavilySearch 联网搜索**
+*描述*: 使用关键词或问题进行网络搜索。
+*调用格式*:
+tool_name:「始」TavilySearch「末」,
+query:「始」(必需) 搜索的关键词或问题。「末」,
+topic:「始」(可选, 默认为 'general') 搜索的主题，例如 'news', 'finance', 'research', 'code'。「末」,
+search_depth:「始」(可选, 默认为 'basic') 搜索深度，可选值：'basic', 'advanced'。「末」,
+max_results:「始」(可选, 默认为 10) 返回的最大结果数量，范围 5-100。「末」
+
+**2. UrlFetch 网页内容获取**
+*描述*: 爬取指定网页的文本内容或生成快照。
+*调用格式*:
+tool_name:「始」UrlFetch「末」,
+url:「始」(必需) 要访问的网页 URL。「末」,
+mode:「始」(可选) 模式，'text' (默认) 或 'snapshot' (网页快照)。「末」
+
+**3. BilibiliFetch B站内容获取**
+*描述*: 获取B站视频的语音转文字内容。
+*调用格式*:
+tool_name:「始」BilibiliFetch「末」,
+url:「始」(必需) Bilibili 视频或直播的 URL。「末」
+
+**4. DeepMemo 深度回忆**
+*描述*: 在过去的聊天历史中搜索关键词。
+*调用格式*:
+tool_name:「始」DeepMemo「末」,
+maid:「始」(必需) 你的名字。「末」,
+keyword：「始」(必需) 搜索关键词，多个词用逗号或空格分隔。「末」,
+window_size：「始」(可选, 默认10) 匹配深度，可选5-20，数字越大上下文越多。「末」
+
+
+---
+### 三. Agent与通讯
+---
+
+**1. AgentAssistant 多智能体协作**
+*描述*: 用于联络项目中的其他Agent。
+*调用格式*:
+tool_name:「始」AgentAssistant「末」,
+agent_name:「始」(必需) 要联络的Agent准确名称 (例如: Nova, 可可)。「末」,
+prompt:「始」(必需) 要传达的内容。请在开头进行自我介绍，例如“我是[你的名字]，我想请你...”「末」
+
+**2. AgentMessage 主人通讯器**
+*描述*: 向用户的设备发送通知消息。
+*调用格式*:
+tool_name:「始」AgentMessage「末」,
+message:「始」(必需) 要发送的通知消息。「末」
+
+
+---
+### 四. 文件与日记
+---
+
+**1. FileEditor 文件管理器 (智能交互)**
+*描述*: 一个多功能文件工具，可以读取、写入、删除和列出文件。特别增强了删除功能，支持通过角色名进行交互式文件选择。
+*读取文件*:
+tool_name:「始」FileEditor「末」,
+command:「始」ReadFile「末」,
+file_type:「始」(可选) 'diary' 或 'agent'。「末」,
+file_path:「始」(必需) 文件的相对路径。「末」
+
+*写入文件*:
+tool_name:「始」FileEditor「末」,
+command:「始」WriteFile「末」,
+file_type:「始」(可选) 'diary' 或 'agent'。「末」,
+file_path:「始」(必需) 要写入的文件的相对路径。「末」,
+content:「始」(必需) 要写入的全新内容。「末」
+
+*列出目录*:
+tool_name:「始」FileEditor「末」,
+command:「始」ListDirectory「末」,
+file_type:「始」(可选) 'diary' 或 'agent'。「末」,
+dir_path:「始」(必需) 要列出内容的目录路径。「末」
+
+*删除文件 (交互式)*:
+这是一个两步过程，用于“我不知道完整路径，但我想删除某个角色的日记/Agent”的场景。
+**第一步: 列出文件**
+tool_name:「始」FileEditor「末」,
+command:「始」DeleteFile「末」,
+file_type:「始」(必需) 'diary' 或 'agent'。「末」,
+character_name:「始」(必需) 角色/Agent的名字，例如 'zhuchiren'。「末」
+// 插件会返回一个文件列表供你选择。
+
+**第二步: 确认删除**
+tool_name:「始」FileEditor「末」,
+command:「始」DeleteFile「末」,
+file_path:「始」(必需) 从上一步列表中选择的【完整文件路径】。「末」
+
+**2. DailyNoteWrite 日记写入器**
+*描述*: 创建一篇新的日记。
+*调用格式*:
+tool_name:「始」DailyNoteWrite「末」,
+maidName:「始」(必需) 你的名字。支持[文件夹]名字的格式。「末」,
+dateString:「始」(必需) 日记的日期，格式 YYYY.MM.DD。「末」,
+contentText:「始」(必需) 日记内容。「末」
+
+**3. DailyNoteGet 日记获取器 (多功能)**
+*描述*: 获取全部、指定角色、或指定角色在指定日期的日记内容。
+*调用格式*:
+// 获取全部角色的全部日记
+tool_name:「始」DailyNoteGet「末」
+
+// 获取指定角色的全部日记
+tool_name:「始」DailyNoteGet「末」,
+characterName:「始」(必需) 角色名称。「末」
+
+// 获取指定角色在指定日期的日记
+tool_name:「始」DailyNoteGet「末」,
+characterName:「始」(必需) 角色名称。「末」,
+dateString:「始」(必需) 日期，格式 YYYY-MM-DD。「末」
+
+**4. DailyNoteEditor 日记编辑器 (全局搜索替换)**
+*描述*: 在所有日记文件中，搜索并替换第一个匹配的文本。这是一个高风险操作。
+*调用格式*:
+tool_name:「始」DailyNoteEditor「末」,
+target:「始」(必需) 要被替换的文本，长度必须大于15个字符。「末」,
+replace:「始」(必需) 用来替换的新文本。「末」
+
+**5. DailyNoteManager 日记管理器 (批量写入)**
+*描述*: 接收由AI格式化好的日记文本块，并将其解析后批量存入日记库。
+*调用格式*:
+tool_name:「始」DailyNoteManager「末」,
+command:「始」(必需) 包含所有待保存日记的、严格格式化的长文本。「末」
+
+
+---
+### 五. 实用工具
+---
+
+**1. SciCalculator 科学计算器**
+*描述*: 执行各种数学和科学计算。
+*调用格式*:
+tool_name:「始」SciCalculator「末」,
+expression:「始」(必需) 要计算的完整数学表达式。「末」
+*支持函数*: 支持加减乘除、三角函数、对数、统计、微积分等，详情请参考插件文档。
+
+**2. TarotDivination 塔罗占卜**
+*描述*: 进行塔罗牌占卜。
+*单抽*:
+tool_name: 「始」TarotDivination「末」,
+command: 「始」draw_single_card「末」
+*三牌阵*:
+tool_name: 「始」TarotDivination「末」,
+command: 「始」draw_three_card_spread「末」
+*凯尔特十字*:
+tool_name: 「始」TarotDivination「末」,
+command: 「始」draw_celtic_cross「末」
+
+**3. Randomness 随机事件生成器**
+*描述*: 提供掷骰、抽牌、生成随机数等多种随机功能。
+*掷骰子*:
+tool_name:「始」Randomness「末」,
+command:「始」rollDice「末」,
+diceString:「始」(必需) TRPG风格的掷骰表达式，如 "2d6+5"。「末」
+*从列表选择*:
+tool_name:「始」Randomness「末」,
+command:「始」selectFromList「末」,
+items:「始」(必需) 包含选项的数组，如 ["苹果", "香蕉"]。「末」
+*更多功能*: 支持创建和操作牌堆、生成随机日期等，详情请参考插件文档。
+=======
 VCP工具调用格式与指南，总格式指导。
 
 <<<[TOOL_REQUEST]>>>
@@ -171,3 +406,4 @@ count:「始」2「末」, // 可选
 tool_name:「始」Randomness「末」,
 command:「始」destroyDeck「末」,
 deckId:「始」由createDeck返回的ID「末」 // 必需
+>>>>>>> upstream/main

@@ -5,13 +5,11 @@ set "FORK_URL=https://github.com/ZiChuanShanFeng/VCPToolBox.git"
 set "BRANCH_NAME=master"
 
 echo ==================================================
-echo      Upload to Fork Script (Force Push Mode)
+echo      Upload to Fork Script
 echo ==================================================
 echo.
-echo This script will FORCE PUSH all local files to the
-echo '%BRANCH_NAME%' branch of your forked repository.
-echo.
-echo WARNING: This will overwrite the remote branch's history.
+echo This script will commit all local changes and push them
+echo to the '%BRANCH_NAME%' branch of your forked repository.
 echo.
 echo  - Fork URL: %FORK_URL%
 echo  - Target Branch: %BRANCH_NAME%
@@ -56,20 +54,26 @@ if %errorlevel% neq 0 (
 )
 echo.
 
-echo Step 3: Staging all files for commit...
-git add .
+echo Step 3: Staging all files for commit (including new, modified, and deleted files)...
+git add -A
 echo.
 
 echo Step 4: Committing all staged files...
-git commit -m "chore: Overwrite with local content"
+set /p commit_message="Please enter your commit message: "
+if not defined commit_message (
+    echo No commit message entered. Using a default message.
+    set "commit_message=chore: Sync local changes"
+)
+git commit -m "%commit_message%"
 if %errorlevel% neq 0 (
     echo Warning: Commit failed. This might be because there are no changes to commit.
-    echo Proceeding to push anyway...
+    echo Aborting push.
+    goto :eof
 )
 echo.
 
-echo Step 5: Force pushing to the '%BRANCH_NAME%' branch on your fork...
-git push --force myfork %BRANCH_NAME%
+echo Step 5: Pushing to the '%BRANCH_NAME%' branch on your fork...
+git push myfork %BRANCH_NAME%
 if %errorlevel% neq 0 (
     echo Error: Failed to push the branch to the remote repository.
     goto :eof
@@ -77,7 +81,6 @@ if %errorlevel% neq 0 (
 echo.
 
 echo ==================================================
-echo      Successfully force-pushed to your fork!
+echo      Successfully pushed to your fork!
 echo ==================================================
 echo.
-pause
