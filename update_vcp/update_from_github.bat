@@ -40,7 +40,7 @@ echo Step 3: Copying new files only. Existing files will be skipped.
 echo Source: %TEMP_DIR%
 echo Destination: %CD%
 echo.
-robocopy "%TEMP_DIR%" "%CD%" /E /XC /XN /XO /XD .git
+robocopy "%TEMP_DIR%" "%~dp0.." /E /XC /XN /XO /XD .git
 echo.
 
 echo Step 4: Update complete.
