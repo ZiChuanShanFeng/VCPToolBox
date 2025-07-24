@@ -73,7 +73,7 @@ if %errorlevel% neq 0 (
 echo.
 
 echo Step 5: Pushing to the '%BRANCH_NAME%' branch on your fork...
-git push myfork %BRANCH_NAME%
+git push --force myfork %BRANCH_NAME%
 if %errorlevel% neq 0 (
     echo Error: Failed to push the branch to the remote repository.
     goto :eof
