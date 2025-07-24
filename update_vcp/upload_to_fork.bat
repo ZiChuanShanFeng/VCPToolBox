@@ -59,11 +59,7 @@ git add -A
 echo.
 
 echo Step 4: Committing all staged files...
-set /p commit_message="Please enter your commit message: "
-if not defined commit_message (
-    echo No commit message entered. Using a default message.
-    set "commit_message=chore: Sync local changes"
-)
+set "commit_message=chore: Sync local changes"
 git commit -m "%commit_message%"
 if %errorlevel% neq 0 (
     echo Warning: Commit failed. This might be because there are no changes to commit.
