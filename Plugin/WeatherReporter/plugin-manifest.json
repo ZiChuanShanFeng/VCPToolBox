@@ -1,6 +1,6 @@
 {
   "manifestVersion": "1.0.0",
-  "name": "WeatherReporter",
+  "name": "VCPWeatherReporter",
   "version": "1.0.0",
   "displayName": "天气预报员",
   "description": "提供实时的天气信息，并将其集成到系统提示词的 {{VCPWeatherInfo}} 占位符中。",
