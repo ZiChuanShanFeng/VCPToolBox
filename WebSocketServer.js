@@ -309,10 +309,28 @@ function handleDistributedServerMessage(serverId, message) {
         case 'register_tools':
             const serverEntry = distributedServers.get(serverId);
             if (serverEntry && message.data && Array.isArray(message.data.tools)) {
-                pluginManager.registerDistributedTools(serverId, message.data.tools);
+                const userDefinedName = message.data.serverName;
+                let finalServerId = serverId; // 默认使用随机ID
+
+                // 如果提供了有效的自定义名称，则准备重命名
+                if (userDefinedName && userDefinedName !== 'Unnamed-Distributed-Server') {
+                    finalServerId = userDefinedName;
+                    // 如果ID需要变更，更新map
+                    if (finalServerId !== serverId) {
+                        serverEntry.ws.serverId = finalServerId; // 更新ws对象内部的ID引用
+                        distributedServers.delete(serverId); // 从map中删除旧的随机ID条目
+                        writeLog(`Distributed Server ${serverId} has been renamed to ${finalServerId}.`);
+                    }
+                }
+
+                // 使用最终确定的ID来注册工具
+                pluginManager.registerDistributedTools(finalServerId, message.data.tools);
+                // 更新serverEntry对象中的工具列表
                 serverEntry.tools = message.data.tools.map(t => t.name);
-                distributedServers.set(serverId, serverEntry);
-                writeLog(`Registered ${message.data.tools.length} tools from server ${serverId}.`);
+                // 最终将更新后的serverEntry对象用其最终ID存回map
+                distributedServers.set(finalServerId, serverEntry);
+
+                writeLog(`Registered ${message.data.tools.length} tools from server ${finalServerId}.`);
             }
             break;
         case 'tool_result':
