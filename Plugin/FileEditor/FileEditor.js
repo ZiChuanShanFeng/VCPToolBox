@@ -60,7 +60,7 @@ async function readFile(filePath, encoding = 'utf8') {
     const stats = await fs.stat(filePath);
     if (stats.size > MAX_FILE_SIZE) {
       throw new Error(
-        `File too large: ${formatFileSize(stats.size)} exceeds limit of ${formatFileSize(MAX_FILE_SIZE)}`,
+        `File too large: ${formatFileSize(stats.size)} exceeds limit of ${formatFileSize(MAX_FILE_SIZE)}`
       );
     }
 
@@ -132,7 +132,7 @@ async function appendFile(filePath, content, encoding = 'utf8') {
       const stats = await fs.stat(filePath);
       existingSize = stats.size;
     } catch (e) {
-      // File doesn't exist, which is fine
+      // File doesn\'t exist, which is fine
     }
 
     const newContentSize = Buffer.byteLength(content, encoding);
@@ -192,7 +192,7 @@ async function listDirectory(dirPath, showHidden = ENABLE_HIDDEN_FILES) {
         });
       } catch (itemError) {
         debugLog('Error getting item stats', { itemPath, error: itemError.message });
-        // Skip items we can't stat
+        // Skip items we can\'t stat
       }
     }
 
@@ -263,7 +263,7 @@ async function copyFile(sourcePath, destinationPath) {
     const stats = await fs.stat(sourcePath);
     if (stats.size > MAX_FILE_SIZE) {
       throw new Error(
-        `File too large to copy: ${formatFileSize(stats.size)} exceeds limit of ${formatFileSize(MAX_FILE_SIZE)}`,
+        `File too large to copy: ${formatFileSize(stats.size)} exceeds limit of ${formatFileSize(MAX_FILE_SIZE)}`
       );
     }
 
@@ -475,7 +475,7 @@ async function listAllowedDirectories() {
             type: stats.isDirectory() ? 'directory' : 'file',
           });
         } catch (e) {
-          // Ignore items that can't be stat'd
+          // Ignore items that can\'t be stat\'d
         }
       }
       allProjects[dir] = subItems;
@@ -532,7 +532,7 @@ async function processRequest(request) {
     default:
       return {
         success: false,
-        error: `Unknown action: ${action}`,
+        error: `Unknown action: ${action}`
       };
   }
 }
@@ -556,7 +556,7 @@ process.stdin.on('data', async data => {
   } catch (error) {
     const errorResponse = {
       status: 'error',
-      error: `Invalid request format: ${error.message}`,
+      error: `Invalid request format: ${error.message}`
     };
     console.log(JSON.stringify(errorResponse));
   }
@@ -567,12 +567,12 @@ function convertToVCPFormat(response) {
   if (response.success) {
     return {
       status: 'success',
-      result: JSON.stringify(response.data || response.message || 'Operation completed successfully'),
+      result: JSON.stringify(response.data || response.message || 'Operation completed successfully')
     };
   } else {
     return {
       status: 'error',
-      error: response.error || 'Unknown error occurred',
+      error: response.error || 'Unknown error occurred'
     };
   }
 }

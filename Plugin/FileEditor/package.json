@@ -1,8 +1,8 @@
 {
-  "name": "fileoperator-vcp-plugin",
+  "name": "fileeditor-vcp-plugin",
   "version": "1.0.0",
   "description": "VCP Plugin for comprehensive file system operations",
-  "main": "FileOperator.js",
+  "main": "FileEditor.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
