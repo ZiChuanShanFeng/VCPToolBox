@@ -126,49 +126,6 @@ message:「始」(必需) 要发送的通知消息。「末」
 ### 四. 文件与日记
 ---
 
-**1. FileEditor 文件管理器 (智能交互)**
-*描述*: 一个多功能文件工具，可以读取、写入、删除和列出文件。特别增强了删除功能，支持通过角色名进行交互式文件选择。
-*读取文件*:
-tool_name:「始」FileEditor「末」,
-command:「始」ReadFile「末」,
-file_type:「始」(可选) 'diary' 或 'agent'。「末」,
-file_path:「始」(必需) 文件的相对路径。「末」
-
-*写入文件*:
-tool_name:「始」FileEditor「末」,
-command:「始」WriteFile「末」,
-file_type:「始」(可选) 'diary' 或 'agent'。「末」,
-file_path:「始」(必需) 要写入的文件的相对路径。「末」,
-content:「始」(必需) 要写入的全新内容。「末」
-
-*列出目录*:
-tool_name:「始」FileEditor「末」,
-command:「始」ListDirectory「末」,
-file_type:「始」(可选) 'diary' 或 'agent'。「末」,
-dir_path:「始」(必需) 要列出内容的目录路径。「末」
-
-*删除文件 (交互式)*:
-这是一个两步过程，用于“我不知道完整路径，但我想删除某个角色的日记/Agent”的场景。
-**第一步: 列出文件**
-tool_name:「始」FileEditor「末」,
-command:「始」DeleteFile「末」,
-file_type:「始」(必需) 'diary' 或 'agent'。「末」,
-character_name:「始」(必需) 角色/Agent的名字，例如 'zhuchiren'。「末」
-// 插件会返回一个文件列表供你选择。
-
-**第二步: 确认删除**
-tool_name:「始」FileEditor「末」,
-command:「始」DeleteFile「末」,
-file_path:「始」(必需) 从上一步列表中选择的【完整文件路径】。「末」
-
-**2. DailyNoteWrite 日记写入器**
-*描述*: 创建一篇新的日记。
-*调用格式*:
-tool_name:「始」DailyNoteWrite「末」,
-maidName:「始」(必需) 你的名字。支持[文件夹]名字的格式。「末」,
-dateString:「始」(必需) 日记的日期，格式 YYYY.MM.DD。「末」,
-contentText:「始」(必需) 日记内容。「末」
-
 **3. DailyNoteGet 日记获取器 (多功能)**
 *描述*: 获取全部、指定角色、或指定角色在指定日期的日记内容。
 *调用格式*:
