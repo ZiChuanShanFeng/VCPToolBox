@@ -1,0 +1,79 @@
+{
+  "manifestVersion": "1.0.0",
+  "name": "JMCrawl",
+  "version": "1.0.0",
+  "displayName": "JM漫画爬虫",
+  "description": "基于JMComic-Crawler-Python的禁漫天堂漫画下载工具，支持下载本子和章节。",
+  "author": "VCP Plugin Developer",
+  "pluginType": "synchronous",
+  "entryPoint": {
+    "type": "python",
+    "command": "python jmcrawl.py"
+  },
+  "communication": {
+    "protocol": "stdio",
+    "timeout": 1200000
+  },
+  "configSchema": {
+    "JM_DOWNLOAD_DIR": {
+      "type": "string",
+      "description": "JM漫画下载目录路径",
+      "default": "./downloads/jm"
+    },
+    "JM_CLIENT_IMPL": {
+      "type": "string",
+      "description": "客户端实现类型 (html/api)",
+      "default": "html"
+    },
+    "JM_IMAGE_SUFFIX": {
+      "type": "string",
+      "description": "图片格式后缀",
+      "default": ".jpg"
+    },
+    "JM_PROXY": {
+      "type": "string",
+      "description": "代理设置 (可选)",
+      "default": "system"
+    },
+    "JM_COOKIES": {
+      "type": "string",
+      "description": "登录cookies (可选，格式: AVS=xxx)",
+      "default": ""
+    }
+  },
+  "capabilities": {
+    "invocationCommands": [
+      {
+        "commandIdentifier": "DownloadAlbum",
+        "description": "下载指定的JM本子（包含所有章节）。\n参数:\n- album_id (字符串, 必需): 本子的ID，例如 '422866'\n- download_dir (字符串, 可选): 自定义下载目录路径\n- image_format (字符串, 可选): 图片格式，如 '.jpg', '.png'\n调用格式:\n<<<[TOOL_REQUEST]>>>\ntool_name:「始」JMCrawl「末」,\ncommand:「始」DownloadAlbum「末」,\nalbum_id:「始」422866「末」,\ndownload_dir:「始」./downloads/jm「末」,\nimage_format:「始」.jpg「末」\n<<<[END_TOOL_REQUEST]>>>",
+        "example": "<<<[TOOL_REQUEST]>>>\ntool_name:「始」JMCrawl「末」,\ncommand:「始」DownloadAlbum「末」,\nalbum_id:「始」422866「末」\n<<<[END_TOOL_REQUEST]>>>"
+      },
+      {
+        "commandIdentifier": "DownloadPhoto",
+        "description": "下载指定的JM章节。\n参数:\n- photo_id (字符串, 必需): 章节的ID\n- download_dir (字符串, 可选): 自定义下载目录路径\n- image_format (字符串, 可选): 图片格式，如 '.jpg', '.png'\n调用格式:\n<<<[TOOL_REQUEST]>>>\ntool_name:「始」JMCrawl「末」,\ncommand:「始」DownloadPhoto「末」,\nphoto_id:「始」123456「末」,\ndownload_dir:「始」./downloads/jm「末」,\nimage_format:「始」.jpg「末」\n<<<[END_TOOL_REQUEST]>>>",
+        "example": "<<<[TOOL_REQUEST]>>>\ntool_name:「始」JMCrawl「末」,\ncommand:「始」DownloadPhoto「末」,\nphoto_id:「始」123456「末」\n<<<[END_TOOL_REQUEST]>>>"
+      },
+      {
+        "commandIdentifier": "SearchAlbum",
+        "description": "搜索JM本子。\n参数:\n- keyword (字符串, 必需): 搜索关键词\n- page (整数, 可选): 页码，默认为1\n- limit (整数, 可选): 返回结果数量限制，默认为10\n调用格式:\n<<<[TOOL_REQUEST]>>>\ntool_name:「始」JMCrawl「末」,\ncommand:「始」SearchAlbum「末」,\nkeyword:「始」搜索关键词「末」,\npage:「始」1「末」,\nlimit:「始」10「末」\n<<<[END_TOOL_REQUEST]>>>",
+        "example": "<<<[TOOL_REQUEST]>>>\ntool_name:「始」JMCrawl「末」,\ncommand:「始」SearchAlbum「末」,\nkeyword:「始」恋爱「末」,\npage:「始」1「末」,\nlimit:「始」5「末」\n<<<[END_TOOL_REQUEST]>>>"
+      },
+      {
+        "commandIdentifier": "GetAlbumInfo",
+        "description": "获取指定本子的详细信息（不下载）。\n参数:\n- album_id (字符串, 必需): 本子的ID\n调用格式:\n<<<[TOOL_REQUEST]>>>\ntool_name:「始」JMCrawl「末」,\ncommand:「始」GetAlbumInfo「末」,\nalbum_id:「始」422866「末」\n<<<[END_TOOL_REQUEST]>>>",
+        "example": "<<<[TOOL_REQUEST]>>>\ntool_name:「始」JMCrawl「末」,\ncommand:「始」GetAlbumInfo「末」,\nalbum_id:「始」422866「末」\n<<<[END_TOOL_REQUEST]>>>"
+      }
+    ]
+  },
+  "dependencies": {
+    "python": ">=3.7",
+    "libraries": [
+      "jmcomic",
+      "curl_cffi",
+      "commonX",
+      "PyYAML",
+      "Pillow",
+      "pycryptodome"
+    ]
+  }
+}

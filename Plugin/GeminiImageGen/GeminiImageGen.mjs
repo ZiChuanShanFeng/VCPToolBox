@@ -98,9 +98,13 @@ async function getImageDataFromUrl(url) {
             throw new Error('直接读取本地文件失败，且未配置任何分布式图床地址 (DIST_IMAGE_SERVERS)。');
         }
 
+        const imageKey = process.env.DIST_IMAGE_KEY;
+        if (!imageKey) {
+            throw new Error('无法降级到分布式图床：环境变量 DIST_IMAGE_KEY 未配置。');}
+
         const fileName = path.basename(filePath);
         for (const serverBaseUrl of DIST_IMAGE_SERVERS) {
-            const fullHttpUrl = `${serverBaseUrl.trim().replace(/\/$/, '')}/${fileName}`;
+            const fullHttpUrl = `${serverBaseUrl.trim().replace(/\/$/, '')}/pw=${imageKey}/files/${fileName}`;
             try {
                 console.error(`[GeminiImageGen] 尝试从分布式图床下载: ${fullHttpUrl}`);
                 const response = await axios.get(fullHttpUrl, { responseType: 'arraybuffer', httpsAgent: PROXY_AGENT });

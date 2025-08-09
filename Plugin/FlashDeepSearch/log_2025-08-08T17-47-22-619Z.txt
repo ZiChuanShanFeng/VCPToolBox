@@ -1,0 +1,32 @@
+[FlashDeepSearch] 2025-08-08T17:47:22.646Z: 插件启动，接收到请求。
+[FlashDeepSearch] 2025-08-08T17:47:22.647Z: 研究主题: "探讨人工智能在气候变化建模中的应用及其伦理影响。", 搜索广度: 10
+[FlashDeepSearch] 2025-08-08T17:47:22.648Z: 步骤 1: 生成研究关键词...
+[FlashDeepSearch] 2025-08-08T17:47:22.648Z: 调用模型: gemini-2.5-flash-preview-05-20
+[FlashDeepSearch] 2025-08-08T17:47:31.481Z: DeepSearchModel 原始响应: 好的，"跨域研究织网者" 已准备就绪。您的研究主题是“探讨人工智能在气候变化建模中的应用及其伦理影响”，搜索广度为10。
+
+以下是为您精心构建的检索关键词列表：
+
+[AI climate modeling:] [人工智能 气候预测:] [Ethical AI climate change:] [Algorithmic bias environmental data:] [气候模拟 伦理挑战:] [Machine learning climate impacts:] [AI governance climate policy:] [人工智能局限性 气候模型:] [Environmental justice AI:] [Causality climate AI:]
+[FlashDeepSearch] 2025-08-08T17:47:31.482Z: 成功提取到 10 个关键词。
+[FlashDeepSearch] 2025-08-08T17:47:31.482Z: 步骤 2: 并发执行 10 个搜索任务...
+[FlashDeepSearch] 2025-08-08T17:47:31.482Z: 调用模型: gemini-2.5-flash-lite-preview-06-17
+[FlashDeepSearch] 2025-08-08T17:47:31.487Z: 调用模型: gemini-2.5-flash-lite-preview-06-17
+[FlashDeepSearch] 2025-08-08T17:47:31.489Z: 调用模型: gemini-2.5-flash-lite-preview-06-17
+[FlashDeepSearch] 2025-08-08T17:47:31.492Z: 调用模型: gemini-2.5-flash-lite-preview-06-17
+[FlashDeepSearch] 2025-08-08T17:47:31.494Z: 调用模型: gemini-2.5-flash-lite-preview-06-17
+[FlashDeepSearch] 2025-08-08T17:47:31.737Z: 警告: 关键词 "Algorithmic bias environmental data" 的搜索失败: Request failed with status code 429
+[FlashDeepSearch] 2025-08-08T17:47:31.743Z: 警告: 关键词 "气候模拟 伦理挑战" 的搜索失败: Request failed with status code 429
+[FlashDeepSearch] 2025-08-08T17:47:42.342Z: 调用模型: gemini-2.5-flash-lite-preview-06-17
+[FlashDeepSearch] 2025-08-08T17:47:42.345Z: 调用模型: gemini-2.5-flash-lite-preview-06-17
+[FlashDeepSearch] 2025-08-08T17:47:42.347Z: 调用模型: gemini-2.5-flash-lite-preview-06-17
+[FlashDeepSearch] 2025-08-08T17:47:42.351Z: 调用模型: gemini-2.5-flash-lite-preview-06-17
+[FlashDeepSearch] 2025-08-08T17:47:42.353Z: 调用模型: gemini-2.5-flash-lite-preview-06-17
+[FlashDeepSearch] 2025-08-08T17:47:42.468Z: 警告: 关键词 "人工智能局限性 气候模型" 的搜索失败: Request failed with status code 429
+[FlashDeepSearch] 2025-08-08T17:47:42.472Z: 警告: 关键词 "Machine learning climate impacts" 的搜索失败: Request failed with status code 429
+[FlashDeepSearch] 2025-08-08T17:47:42.733Z: 警告: 关键词 "AI governance climate policy" 的搜索失败: Request failed with status code 429
+[FlashDeepSearch] 2025-08-08T17:47:42.737Z: 警告: 关键词 "Environmental justice AI" 的搜索失败: Request failed with status code 429
+[FlashDeepSearch] 2025-08-08T17:47:42.738Z: 警告: 关键词 "Causality climate AI" 的搜索失败: Request failed with status code 429
+[FlashDeepSearch] 2025-08-08T17:47:42.738Z: 成功完成 3 个搜索任务。
+[FlashDeepSearch] 2025-08-08T17:47:42.738Z: 步骤 3: 生成最终研究报告...
+[FlashDeepSearch] 2025-08-08T17:47:42.738Z: 调用模型: gemini-2.5-flash-preview-05-20
+[FlashDeepSearch] 2025-08-08T17:47:42.791Z: 发生严重错误: Request failed with status code 429

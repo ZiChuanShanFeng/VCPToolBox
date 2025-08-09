@@ -1,0 +1,12 @@
+{
+  "requestId": "12c08b44-461e-4ab9-8e0c-3a96e1037ab9",
+  "status": "Failed",
+  "pluginName": "MissAVCrawl",
+  "type": "missav_download_status",
+  "videoUrl": "https://missav.ws/ssis-950",
+  "quality": "best",
+  "error": "expected string or bytes-like object",
+  "errorDetail": "expected string or bytes-like object",
+  "message": "❌ 下载失败\n💥 expected string or bytes-like object",
+  "downloadTime": "2025-08-09T15:09:17.018495"
+}

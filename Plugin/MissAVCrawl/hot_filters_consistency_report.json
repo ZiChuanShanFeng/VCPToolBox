@@ -1,0 +1,182 @@
+{
+  "基础热榜（无过滤器）": {
+    "success": true,
+    "count": 5,
+    "analysis": {
+      "total_count": 5,
+      "has_enhanced_info": false,
+      "filter_type": null,
+      "sort": null,
+      "video_codes": [
+        "eva-206",
+        "eva-206",
+        "eva-206",
+        "eva-206-uncensored-leak",
+        "eva-206-uncensored-leak"
+      ],
+      "durations": [],
+      "release_dates": [],
+      "has_duplicates": true
+    },
+    "sample_videos": [
+      {
+        "url": "https://missav.ws/en/eva-206",
+        "video_code": "eva-206",
+        "title": "",
+        "thumbnail": "https://fourhoi.com/eva-206/cover-n.jpg",
+        "duration": "0:58:52",
+        "publish_date": "",
+        "views": ""
+      },
+      {
+        "url": "https://missav.ws/en/eva-206",
+        "video_code": "eva-206",
+        "title": "0:58:52",
+        "thumbnail": "https://fourhoi.com/eva-206/cover-n.jpg",
+        "duration": "0:58:52",
+        "publish_date": "",
+        "views": ""
+      }
+    ]
+  },
+  "增强热榜（无过滤器）": {
+    "success": true,
+    "count": 5,
+    "analysis": {
+      "total_count": 5,
+      "has_enhanced_info": true,
+      "filter_type": null,
+      "sort": null,
+      "video_codes": [
+        "eva-206",
+        "eva-206",
+        "eva-206",
+        "eva-206-uncensored-leak",
+        "eva-206-uncensored-leak"
+      ],
+      "durations": [
+        "58:52",
+        "58:52",
+        "58:52",
+        "58:52",
+        "58:52"
+      ],
+      "release_dates": [
+        "2025-05-04",
+        "2025-05-04",
+        "2025-05-04",
+        "2025-05-04",
+        "2025-05-04"
+      ],
+      "has_duplicates": true
+    },
+    "sample_videos": [
+      {
+        "url": "https://missav.ws/en/eva-206",
+        "video_code": "eva-206",
+        "title": "",
+        "thumbnail": "https://fourhoi.com/eva-206/cover-n.jpg",
+        "duration": "58:52",
+        "publish_date": "",
+        "views": "",
+        "actresses": [
+          "Actress list",
+          "Actress ranking AUG 2025",
+          "My actress collection",
+          "Lily",
+          "Actress"
+        ],
+        "tags": [
+          "Genre",
+          "VR"
+        ],
+        "studio": "Maker",
+        "release_date": "2025-05-04",
+        "description": "Summer means the beach! The beach means picking up girls! So I went to a certain beach to get a bikini beauty! This time I picked up [Lily-chan], who has s",
+        "available_resolutions": [
+          {
+            "quality": "360p",
+            "resolution": "640x360"
+          },
+          {
+            "quality": "480p",
+            "resolution": "854x480"
+          },
+          {
+            "quality": "720p",
+            "resolution": "1280x720"
+          }
+        ],
+        "preview_videos": [
+          "https://fourhoi.com/eva-206/preview.mp4"
+        ],
+        "main_m3u8": "https://surrit.com/51a56fe7-2206-453c-a2da-0b4e6f0493c8/playlist.m3u8",
+        "main_preview": "https://fourhoi.com/eva-206/preview.mp4",
+        "resolution_count": 3
+      },
+      {
+        "url": "https://missav.ws/en/eva-206",
+        "video_code": "eva-206",
+        "title": "0:58:52",
+        "thumbnail": "https://fourhoi.com/eva-206/cover-n.jpg",
+        "duration": "58:52",
+        "publish_date": "",
+        "views": "",
+        "actresses": [
+          "Actress list",
+          "Actress ranking AUG 2025",
+          "My actress collection",
+          "Lily",
+          "Actress"
+        ],
+        "tags": [
+          "Genre",
+          "VR"
+        ],
+        "studio": "Maker",
+        "release_date": "2025-05-04",
+        "description": "Summer means the beach! The beach means picking up girls! So I went to a certain beach to get a bikini beauty! This time I picked up [Lily-chan], who has s",
+        "available_resolutions": [
+          {
+            "quality": "360p",
+            "resolution": "640x360"
+          },
+          {
+            "quality": "480p",
+            "resolution": "854x480"
+          },
+          {
+            "quality": "720p",
+            "resolution": "1280x720"
+          }
+        ],
+        "preview_videos": [
+          "https://fourhoi.com/eva-206/preview.mp4"
+        ],
+        "main_m3u8": "https://surrit.com/51a56fe7-2206-453c-a2da-0b4e6f0493c8/playlist.m3u8",
+        "main_preview": "https://fourhoi.com/eva-206/preview.mp4",
+        "resolution_count": 3
+      }
+    ]
+  },
+  "时长过滤器（长视频）": {
+    "success": false,
+    "error": "无效的过滤器参数: long"
+  },
+  "时长过滤器（短视频）": {
+    "success": false,
+    "error": "无效的过滤器参数: short"
+  },
+  "排序：最新优先": {
+    "success": false,
+    "error": "无效的排序参数: newest"
+  },
+  "排序：最热优先": {
+    "success": false,
+    "error": "无效的排序参数: popular"
+  },
+  "组合：长视频+最新排序": {
+    "success": false,
+    "error": "无效的排序参数: newest"
+  }
+}

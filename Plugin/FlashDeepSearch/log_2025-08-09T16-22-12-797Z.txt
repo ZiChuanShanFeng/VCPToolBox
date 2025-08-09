@@ -1,0 +1,20 @@
+[FlashDeepSearch] 2025-08-09T16:22:12.802Z: 插件启动，接收到请求。
+[FlashDeepSearch] 2025-08-09T16:22:12.804Z: 研究主题: "如何学习编程", 搜索广度: 7
+[FlashDeepSearch] 2025-08-09T16:22:12.804Z: 步骤 1: 生成研究关键词...
+[FlashDeepSearch] 2025-08-09T16:22:12.804Z: 调用模型: gemini-2.5-flash-preview-05-20
+[FlashDeepSearch] 2025-08-09T16:22:31.922Z: DeepSearchModel 原始响应: [KeyWord1:] 编程教育方法论 / Programming Pedagogy [KeyWord2:] 编程技能与就业市场 / Coding Skills Employment Trends [KeyWord3:] 学习编程的认知过程 / Cognitive Processes in Programming Acquisition [KeyWord4:] 青少年编程教育 / K-12 Computer Science Education [KeyWord5:] 编程教育发展史 / History of Programming Instruction [KeyWord6:] 计算思维哲学基础 / Philosophy of Computational Thinking [KeyWord7:] 编程学习障碍与对策 / Barriers to Learning Code
+[FlashDeepSearch] 2025-08-09T16:22:31.923Z: 成功提取到 7 个关键词。
+[FlashDeepSearch] 2025-08-09T16:22:31.924Z: 步骤 2: 并发执行 7 个搜索任务...
+[FlashDeepSearch] 2025-08-09T16:22:31.924Z: 调用模型: gemini-2.5-flash-lite-preview-06-17
+[FlashDeepSearch] 2025-08-09T16:22:31.931Z: 调用模型: gemini-2.5-flash-lite-preview-06-17
+[FlashDeepSearch] 2025-08-09T16:22:31.935Z: 调用模型: gemini-2.5-flash-lite-preview-06-17
+[FlashDeepSearch] 2025-08-09T16:22:31.939Z: 调用模型: gemini-2.5-flash-lite-preview-06-17
+[FlashDeepSearch] 2025-08-09T16:22:31.943Z: 调用模型: gemini-2.5-flash-lite-preview-06-17
+[FlashDeepSearch] 2025-08-09T16:22:44.773Z: 调用模型: gemini-2.5-flash-lite-preview-06-17
+[FlashDeepSearch] 2025-08-09T16:22:44.776Z: 调用模型: gemini-2.5-flash-lite-preview-06-17
+[FlashDeepSearch] 2025-08-09T16:22:45.134Z: 警告: 关键词 "KeyWord7" 的搜索失败: Request failed with status code 429
+[FlashDeepSearch] 2025-08-09T16:22:45.136Z: 警告: 关键词 "KeyWord6" 的搜索失败: Request failed with status code 429
+[FlashDeepSearch] 2025-08-09T16:22:45.136Z: 成功完成 5 个搜索任务。
+[FlashDeepSearch] 2025-08-09T16:22:45.136Z: 步骤 3: 生成最终研究报告...
+[FlashDeepSearch] 2025-08-09T16:22:45.136Z: 调用模型: gemini-2.5-flash-preview-05-20
+[FlashDeepSearch] 2025-08-09T16:22:45.164Z: 发生严重错误: Request failed with status code 429

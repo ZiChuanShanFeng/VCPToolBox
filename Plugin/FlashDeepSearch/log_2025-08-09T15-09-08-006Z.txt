@@ -1,0 +1,27 @@
+[FlashDeepSearch] 2025-08-09T15:09:08.164Z: 插件启动，接收到请求。
+[FlashDeepSearch] 2025-08-09T15:09:08.166Z: 研究主题: "Explore the application of artificial intelligence in climate change modeling and its ethical implications.", 搜索广度: 10
+[FlashDeepSearch] 2025-08-09T15:09:08.166Z: 步骤 1: 生成研究关键词...
+[FlashDeepSearch] 2025-08-09T15:09:08.237Z: 调用模型: gemini-2.5-flash-preview-05-20
+[FlashDeepSearch] 2025-08-09T15:09:21.256Z: DeepSearchModel 原始响应: [AI Climate Models:] [人工智能气候预测:] [Environmental AI Ethics:] [算法偏见气候数据:] [AI for Climate Adaptation:] [Green AI Carbon Footprint:] [AI Climate Policy Tools:] [环境正义人工智能:] [Deep Learning Climate Prediction:] [Responsible AI Climate Action:]
+[FlashDeepSearch] 2025-08-09T15:09:21.347Z: 成功提取到 10 个关键词。
+[FlashDeepSearch] 2025-08-09T15:09:21.396Z: 步骤 2: 并发执行 10 个搜索任务...
+[FlashDeepSearch] 2025-08-09T15:09:21.402Z: 调用模型: gemini-2.5-flash-lite-preview-06-17
+[FlashDeepSearch] 2025-08-09T15:09:28.728Z: 调用模型: gemini-2.5-flash-lite-preview-06-17
+[FlashDeepSearch] 2025-08-09T15:09:28.751Z: 调用模型: gemini-2.5-flash-lite-preview-06-17
+[FlashDeepSearch] 2025-08-09T15:09:28.754Z: 调用模型: gemini-2.5-flash-lite-preview-06-17
+[FlashDeepSearch] 2025-08-09T15:09:28.759Z: 调用模型: gemini-2.5-flash-lite-preview-06-17
+[FlashDeepSearch] 2025-08-09T15:09:31.044Z: 警告: 关键词 "Environmental AI Ethics" 的搜索失败: Request failed with status code 429
+[FlashDeepSearch] 2025-08-09T15:09:46.522Z: 调用模型: gemini-2.5-flash-lite-preview-06-17
+[FlashDeepSearch] 2025-08-09T15:09:46.599Z: 调用模型: gemini-2.5-flash-lite-preview-06-17
+[FlashDeepSearch] 2025-08-09T15:09:46.615Z: 调用模型: gemini-2.5-flash-lite-preview-06-17
+[FlashDeepSearch] 2025-08-09T15:09:46.719Z: 调用模型: gemini-2.5-flash-lite-preview-06-17
+[FlashDeepSearch] 2025-08-09T15:09:46.749Z: 调用模型: gemini-2.5-flash-lite-preview-06-17
+[FlashDeepSearch] 2025-08-09T15:09:48.210Z: 警告: 关键词 "AI Climate Policy Tools" 的搜索失败: Request failed with status code 429
+[FlashDeepSearch] 2025-08-09T15:09:48.212Z: 警告: 关键词 "Deep Learning Climate Prediction" 的搜索失败: Request failed with status code 429
+[FlashDeepSearch] 2025-08-09T15:09:48.213Z: 警告: 关键词 "环境正义人工智能" 的搜索失败: Request failed with status code 429
+[FlashDeepSearch] 2025-08-09T15:09:48.218Z: 警告: 关键词 "Responsible AI Climate Action" 的搜索失败: Request failed with status code 429
+[FlashDeepSearch] 2025-08-09T15:09:48.219Z: 警告: 关键词 "Green AI Carbon Footprint" 的搜索失败: Request failed with status code 429
+[FlashDeepSearch] 2025-08-09T15:09:48.219Z: 成功完成 4 个搜索任务。
+[FlashDeepSearch] 2025-08-09T15:09:48.222Z: 步骤 3: 生成最终研究报告...
+[FlashDeepSearch] 2025-08-09T15:09:48.222Z: 调用模型: gemini-2.5-flash-preview-05-20
+[FlashDeepSearch] 2025-08-09T15:09:48.447Z: 发生严重错误: Request failed with status code 429

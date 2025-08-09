@@ -1,0 +1,119 @@
+{
+    "manifestVersion": "1.0.0",
+    "name": "MissAVCrawl",
+    "version": "3.0.0",
+    "displayName": "MissAV增强视频下载器",
+    "description": "基于missAV API的增强视频下载工具，支持排序与过滤器、增强信息检索、预览视频下载等功能。包含完善的排序参数（收藏数、流量等）和过滤器参数（中文字幕、无码等），可获取视频分辨率、时长、简介等详细信息，并支持下载预览小视频。",
+    "author": "VCP Plugin Developer",
+    "pluginType": "asynchronous",
+    "entryPoint": {
+        "type": "python",
+        "command": "python plugin_main.py"
+    },
+    "communication": {
+        "protocol": "stdio",
+        "timeout": 300000000
+    },
+    "configSchema": {
+        "MISSAV_DOWNLOAD_DIR": {
+            "type": "string",
+            "description": "MissAV视频下载目录路径",
+            "default": "./downloads"
+        },
+        "MISSAV_QUALITY": {
+            "type": "string",
+            "description": "视频质量设置 (best/worst/specific)",
+            "default": "best"
+        },
+        "MISSAV_DOWNLOADER": {
+            "type": "string",
+            "description": "下载器类型 (threaded/sequential)",
+            "default": "threaded"
+        },
+        "MISSAV_PROXY": {
+            "type": "string",
+            "description": "代理设置 (可选，格式: http://proxy:port)",
+            "default": ""
+        },
+        "MISSAV_MIN_FILE_SIZE_MB": {
+            "type": "number",
+            "description": "最小文件大小(MB)，小于此值认为下载失败",
+            "default": 0.5
+        },
+        "MISSAV_MIN_SUCCESS_RATE": {
+            "type": "number",
+            "description": "最小下载成功率(0-1)，低于此值认为下载失败",
+            "default": 0.8
+        },
+        "MISSAV_PROGRESS_UPDATE_INTERVAL": {
+            "type": "number",
+            "description": "进度更新时间间隔(秒)，避免AI产生臆想，建议20-60秒",
+            "default": 30
+        },
+        "MISSAV_SEGMENT_UPDATE_INTERVAL": {
+            "type": "number",
+            "description": "分段更新间隔，每N个分段更新一次进度",
+            "default": 50
+        },
+        "MISSAV_ENABLE_PREVIEW_CACHE": {
+            "type": "boolean",
+            "description": "是否启用预览视频缓存",
+            "default": true
+        },
+        "MISSAV_PREVIEW_CACHE_DIR": {
+            "type": "string",
+            "description": "预览视频缓存目录",
+            "default": "./cache/previews"
+        },
+        "MISSAV_INFO_CACHE_ENABLED": {
+            "type": "boolean",
+            "description": "是否启用视频信息缓存",
+            "default": true
+        }
+    },
+    "capabilities": {
+        "invocationCommands": [
+            {
+                "commandIdentifier": "DownloadVideoAsync",
+                "description": "（异步）从MissAV下载指定视频。此任务将在后台运行。\n参数:\n- url (字符串, 必需): MissAV视频的完整URL。\n- quality (字符串, 可选：best、worst、480p、720p、1080p，P数都会进行尝试，但是不一定真的有这个p数的): 视频质量，默认为'best'。\n调用格式:\n<<<[TOOL_REQUEST]>>>\ntool_name:「始」MissAVCrawl「末」,\ncommand:「始」DownloadVideoAsync「末」,\nurl:「始」https://missav.ws/ssis-950「末」\n<<<[END_TOOL_REQUEST]>>>",
+                "example": "<<<[TOOL_REQUEST]>>>\ntool_name:「始」MissAVCrawl「末」,\ncommand:「始」DownloadVideoAsync「末」,\nurl:「始」https://missav.ws/ssis-950「末」\n<<<[END_TOOL_REQUEST]>>>"
+            },
+            {
+                "commandIdentifier": "GetVideoInfo",
+                "description": "获取MissAV视频的详细信息（不下载）。\n参数:\n- url (字符串, 必需): MissAV视频的完整URL\n调用格式:\n<<<[TOOL_REQUEST]>>>\ntool_name:「始」MissAVCrawl「末」,\ncommand:「始」GetVideoInfo「末」,\nurl:「始」https://missav.ws/xxx「末」\n<<<[END_TOOL_REQUEST]>>>",
+                "example": "<<<[TOOL_REQUEST]>>>\ntool_name:「始」MissAVCrawl「末」,\ncommand:「始」GetVideoInfo「末」,\nurl:「始」https://missav.ws/xxx「末」\n<<<[END_TOOL_REQUEST]>>>"
+            },
+            {
+                "commandIdentifier": "SearchVideos",
+                "description": "无需过滤器与排序，直接根据关键词搜索MissAV视频（增强版）。\n参数:\n- keyword (字符串, 必需): 搜索关键词，如视频代码、演员名等\n- page (整数, 可选): 起始页码，默认为1\n- sort (字符串, 可选): 排序方式，可选值:\n  * saved: 按收藏数排序\n  * today_views: 按日流量排序\n  * weekly_views: 按周流量排序\n  * monthly_views: 按月流量排序\n  * views: 按总流量排序\n  * updated: 按最近更新排序\n  * released_at: 按发行日期排序\n- include_cover (布尔, 可选): 是否返回视频封面图片URL，默认为true\n- include_title (布尔, 可选): 是否返回视频完整标题，默认为true\n- max_results (整数, 可选): 每页最大结果数量，默认为20，最大100\n- max_pages (整数, 可选): 最大搜索页数，默认为1，最大10\n调用格式:\n<<<[TOOL_REQUEST]>>>\ntool_name:「始」MissAVCrawl「末」,\ncommand:「始」SearchVideos「末」,\nkeyword:「始」OFJE-505「末」,\npage:「始」1「末」,\nsort:「始」views「末」,\ninclude_cover:「始」true「末」,\ninclude_title:「始」true「末」,\nmax_results:「始」30「末」,\nmax_pages:「始」3「末」\n<<<[END_TOOL_REQUEST]>>>",
+                "example": "<<<[TOOL_REQUEST]>>>\ntool_name:「始」MissAVCrawl「末」,\ncommand:「始」SearchVideos「末」,\nkeyword:「始」SSIS「末」,\nsort:「始」views「末」,\ninclude_title:「始」true「末」,\nmax_results:「始」25「末」,\nmax_pages:「始」2「末」\n<<<[END_TOOL_REQUEST]>>>"
+            },
+            {
+                "commandIdentifier": "GetHotVideos",
+                "description": "获取MissAV热榜视频。\n参数:\n- category (字符串, 可选): 热榜分类，可选值: 'daily'(每日热门), 'weekly'(每周热门), 'monthly'(每月热门), 'new'(最新), 'popular'(最受欢迎), 'trending'(趋势)，默认为'daily'\n- page (整数, 可选): 页码，默认为1\n调用格式:\n<<<[TOOL_REQUEST]>>>\ntool_name:「始」MissAVCrawl「末」,\ncommand:「始」GetHotVideos「末」,\ncategory:「始」daily「末」,\npage:「始」1「末」\n<<<[END_TOOL_REQUEST]>>>",
+                "example": "<<<[TOOL_REQUEST]>>>\ntool_name:「始」MissAVCrawl「末」,\ncommand:「始」GetHotVideos「末」,\ncategory:「始」daily「末」\n<<<[END_TOOL_REQUEST]>>>"
+            },
+            {
+                "commandIdentifier": "GetEnhancedVideoInfo",
+                "description": "获取MissAV视频的增强详细信息，包括精确的视频时长、所有可用分辨率、完整简介、演员信息（带链接）、类型标签（带链接）、系列信息、发行商信息等。已修复时长显示问题，现在可以正确显示如'2:32:08'的精确时长。\n参数:\n- url (字符串, 必需): MissAV视频的完整URL\n- use_cache (布尔, 可选): 是否使用缓存，默认为true\n返回信息包括:\n- 標題: 完整视频标题\n- 番號: 视频代码\n- 發行日期: 准确的发行日期\n- 時長: 精确的视频时长（如2:32:08）\n- 女優: 所有演员信息（带链接）\n- 類型: 视频类型/标签（带链接）\n- 系列: 视频系列信息（带链接）\n- 發行商: 发行商信息（带链接）\n- 標籤: 标签信息（带链接）\n- 可用分辨率: 所有可下载的分辨率选项\n- 簡介: 完整的视频简介\n调用格式:\n<<<[TOOL_REQUEST]>>>\ntool_name:「始」MissAVCrawl「末」,\ncommand:「始」GetEnhancedVideoInfo「末」,\nurl:「始」https://missav.ws/ssis-950「末」,\nuse_cache:「始」true「末」\n<<<[END_TOOL_REQUEST]>>>",
+                "example": "<<<[TOOL_REQUEST]>>>\ntool_name:「始」MissAVCrawl「末」,\ncommand:「始」GetEnhancedVideoInfo「末」,\nurl:「始」https://missav.ws/ofje-505「末」\n<<<[END_TOOL_REQUEST]>>>"
+            },
+            {
+                "commandIdentifier": "SearchWithFilters",
+                "description": "使用排序和过滤器进行增强搜索（完全重构版）。支持官方URL格式：https://missav.ws/dm4416/en/genres/High%20School%20Girl?filters=individual&sort=today_views\n\n参数:\n- keyword (字符串, 必需): 搜索关键词，支持空格分隔（如\"High School Girl\"）和+连接（如\"keyword1+keyword2\"）\n- page (整数, 可选): 页码，默认为1\n- sort (字符串, 可选): 排序方式，可选值:\n  * saved: 收藏数排序\n  * today_views: 日流量排序\n  * weekly_views: 周流量排序\n  * monthly_views: 月流量排序\n  * views: 总流量排序\n  * updated: 最近更新排序\n  * released_at: 发行日期排序\n- filter (字符串, 可选): 过滤器类型，可选值:\n  * all: 所有内容（默认）\n  * individual: 單人作品\n  * multiple: 多人作品\n  * chinese_subtitle: 中文字幕\n  * jav: 日本AV\n  * asiaav: 亚洲AV\n  * uncensored_leak: 無碼流出\n  * uncensored: 無碼影片\n- include_cover (布尔, 可选): 是否返回封面图片URL，默认为true\n- include_title (布尔, 可选): 是否返回完整标题，默认为true\n- max_results (整数, 可选): 最大结果数量，默认为20\n- max_pages (整数, 可选): 最大页数，默认为1\n- enhanced_info (布尔, 可选): 是否获取增强信息，包括演员、标签、系列、精确时长、简介等详细信息（类似GetEnhancedVideoInfo），默认为true\n\n调用格式:\n<<<[TOOL_REQUEST]>>>\ntool_name:「始」MissAVCrawl「末」,\ncommand:「始」SearchWithFilters「末」,\nkeyword:「始」High School Girl「末」,\nsort:「始」today_views「末」,\nfilter:「始」individual「末」,\nmax_results:「始」15「末」\n<<<[END_TOOL_REQUEST]>>>",
+                "example": "<<<[TOOL_REQUEST]>>>\ntool_name:「始」MissAVCrawl「末」,\ncommand:「始」SearchWithFilters「末」,\nkeyword:「始」SSIS「末」,\nsort:「始」views「末」,\nfilter:「始」chinese_subtitle「末」\n<<<[END_TOOL_REQUEST]>>>"
+            },
+            {
+                "commandIdentifier": "GetHotWithFilters",
+                "description": "使用排序和过滤器获取热榜视频（完全重构版）。支持排序参数与过滤器参数的组合使用，并提供与SearchWithFilters相同级别的详细信息。\n\n✅ 已修复重复数据问题，现在返回唯一的真实视频数据\n✅ 增强信息功能完整，包含演员、标签、预览视频、M3U8链接、分辨率等\n\n参数:\n- category (字符串, 可选): 热榜分类，可选值:\n  * daily: 每日热门（默认）\n  * weekly: 每周热门\n  * monthly: 每月热门\n  * new: 最新视频\n- page (整数, 可选): 页码，默认为1\n- sort (字符串, 可选): 排序方式，可选值:\n  * saved: 收藏数排序\n  * today_views: 日流量排序\n  * weekly_views: 周流量排序\n  * monthly_views: 月流量排序\n  * views: 总流量排序\n  * updated: 最近更新排序\n  * released_at: 发行日期排序\n- filter (字符串, 可选): 过滤器类型，可选值:\n  * all: 所有内容（默认）\n  * individual: 單人作品\n  * multiple: 多人作品\n  * chinese_subtitle: 中文字幕\n  * jav: 日本AV\n  * asiaav: 亚洲AV\n  * uncensored_leak: 無碼流出\n  * uncensored: 無碼影片\n- include_cover (布尔, 可选): 是否返回封面图片URL，默认为true\n- include_title (布尔, 可选): 是否返回完整标题，默认为true\n- max_results (整数, 可选): 最大结果数量，默认为20\n- max_pages (整数, 可选): 最大页数，默认为1\n- enhanced_info (布尔, 可选): 是否获取增强信息，包括演员、标签、系列、精确时长、简介、预览视频、M3U8链接、分辨率等详细信息（与SearchWithFilters相同级别），默认为true\n\n调用格式:\n<<<[TOOL_REQUEST]>>>\ntool_name:「始」MissAVCrawl「末」,\ncommand:「始」GetHotWithFilters「末」,\ncategory:「始」daily「末」,\nsort:「始」today_views「末」,\nfilter:「始」chinese_subtitle「末」,\nenhanced_info:「始」true「末」,\nmax_results:「始」15「末」\n<<<[END_TOOL_REQUEST]>>>",
+                "example": "<<<[TOOL_REQUEST]>>>\ntool_name:「始」MissAVCrawl「末」,\ncommand:「始」GetHotWithFilters「末」,\ncategory:「始」weekly「末」,\nsort:「始」views「末」,\nfilter:「始」individual「末」,\nenhanced_info:「始」true「末」\n<<<[END_TOOL_REQUEST]>>>"
+            }
+        ]
+    },
+    "webSocketPush": {
+        "enabled": true,
+        "messageType": "missav_download_status",
+        "usePluginResultAsMessage": true,
+        "targetClientType": "VCPLog"
+    }
+}

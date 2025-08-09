@@ -1,0 +1,23 @@
+{
+    "name": "Gotify",
+    "displayName": "Gotify 推送服务",
+    "version": "1.0.0",
+    "description": "监听VCP日志，并将指定事件通过Gotify发送推送通知。",
+    "pluginType": "service",
+    "entryPoint": {
+        "script": "Gotify.js"
+    },
+    "communication": {
+        "protocol": "direct"
+    },
+    "configSchema": {
+        "Enable_Gotify_Push": "boolean",
+        "Gotify_Url": "string",
+        "Gotify_App_Token": "string",
+        "Gotify_Priority": "integer",
+        "VCP_Key": "string",
+        "SERVER_PORT": "integer",
+        "DebugMode": "boolean"
+    },
+    "capabilities": {}
+}

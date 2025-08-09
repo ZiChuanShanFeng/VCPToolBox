@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MissAV 下载状态监控示例</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .status-card {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            margin: 10px 0;
+            background: #f9f9f9;
+        }
+        .status-success { border-left: 4px solid #4CAF50; }
+        .status-progress { border-left: 4px solid #2196F3; }
+        .status-error { border-left: 4px solid #f44336; }
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background-color: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        .progress-fill {
+            height: 100%;
+            background-color: #2196F3;
+            transition: width 0.3s ease;
+        }
+        .log-area {
+            background: #000;
+            color: #0f0;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            height: 200px;
+            overflow-y: auto;
+            margin: 10px 0;
+        }
+        .video-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin: 10px 0;
+        }
+        .info-item {
+            background: #f0f0f0;
+            padding: 8px;
+            border-radius: 4px;
+        }
+        .info-label {
+            font-weight: bold;
+            color: #666;
+        }
+        .connection-status {
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .connected { background: #4CAF50; color: white; }
+        .disconnected { background: #f44336; color: white; }
+        .connecting { background: #FF9800; color: white; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎬 MissAV 下载状态监控</h1>
+        
+        <div id="connection-status" class="connection-status disconnected">
+            ❌ 未连接
+        </div>
+        
+        <div class="status-card">
+            <h3>📊 当前下载状态</h3>
+            <div id="current-status">等待下载任务...</div>
+            <div class="progress-bar">
+                <div id="progress-fill" class="progress-fill" style="width: 0%"></div>
+            </div>
+            <div id="progress-text">0%</div>
+        </div>
+        
+        <div class="status-card">
+            <h3>📹 视频信息</h3>
+            <div class="video-info">
+                <div class="info-item">
+                    <div class="info-label">标题</div>
+                    <div id="video-title">-</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">代码</div>
+                    <div id="video-code">-</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">文件大小</div>
+                    <div id="video-size">-</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">分辨率</div>
+                    <div id="video-resolution">-</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">时长</div>
+                    <div id="video-duration">-</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">质量</div>
+                    <div id="video-quality">-</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="status-card">
+            <h3>📝 消息日志</h3>
+            <div id="log-area" class="log-area"></div>
+            <button onclick="clearLog()">清空日志</button>
+        </div>
+        
+        <div class="status-card">
+            <h3>📈 消息统计</h3>
+            <div id="message-stats">
+                <div>missav_download_status: <span id="missav-count">0</span></div>
+                <div>vcp_log (已忽略): <span id="vcp-log-count">0</span></div>
+                <div>其他消息: <span id="other-count">0</span></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let ws = null;
+        let messageStats = {
+            missav_download_status: 0,
+            vcp_log: 0,
+            other: 0
+        };
+
+        // WebSocket 连接配置
+        const WS_URL = 'ws://localhost:6005/VCPlog/VCP_Key=your_vcp_key_here';
+        
+        function connectWebSocket() {
+            updateConnectionStatus('connecting', '🔄 连接中...');
+            logMessage('🔄 正在连接 WebSocket...');
+            
+            ws = new WebSocket(WS_URL);
+            
+            ws.onopen = function(event) {
+                updateConnectionStatus('connected', '✅ 已连接');
+                logMessage('✅ WebSocket 连接成功');
+            };
+            
+            ws.onmessage = function(event) {
+                try {
+                    const data = JSON.parse(event.data);
+                    handleWebSocketMessage(data);
+                } catch (error) {
+                    logMessage('❌ 解析消息失败: ' + error.message);
+                }
+            };
+            
+            ws.onclose = function(event) {
+                updateConnectionStatus('disconnected', '❌ 连接断开');
+                logMessage('❌ WebSocket 连接断开');
+                
+                // 5秒后自动重连
+                setTimeout(connectWebSocket, 5000);
+            };
+            
+            ws.onerror = function(error) {
+                logMessage('❌ WebSocket 错误: ' + error);
+            };
+        }
+        
+        function handleWebSocketMessage(data) {
+            const messageType = data.type;
+            
+            // 统计消息类型
+            if (messageType === 'missav_download_status') {
+                messageStats.missav_download_status++;
+                handleMissAVDownloadStatus(data.data);
+                logMessage(`📥 收到 MissAV 状态更新: ${data.data.status}`);
+            } else if (messageType === 'vcp_log') {
+                messageStats.vcp_log++;
+                // 忽略 vcp_log 消息，但记录统计
+                if (data.data && data.data.tool_name === 'MissAVCrawl') {
+                    logMessage(`🚫 忽略 VCP 日志消息: ${data.data.tool_name}`);
+                }
+            } else {
+                messageStats.other++;
+                logMessage(`📨 收到其他消息: ${messageType}`);
+            }
+            
+            updateMessageStats();
+        }
+        
+        function handleMissAVDownloadStatus(downloadData) {
+            const status = downloadData.status;
+            const message = downloadData.message || '';
+            
+            // 更新状态显示
+            const statusElement = document.getElementById('current-status');
+            statusElement.textContent = message;
+            
+            // 根据状态更新样式
+            const statusCard = statusElement.closest('.status-card');
+            statusCard.className = 'status-card';
+            
+            switch (status) {
+                case 'InProgress':
+                    statusCard.classList.add('status-progress');
+                    updateProgress(downloadData.progress || 0);
+                    updateVideoInfo(downloadData);
+                    break;
+                    
+                case 'Succeed':
+                    statusCard.classList.add('status-success');
+                    updateProgress(100);
+                    updateVideoInfo(downloadData);
+                    logMessage('🎉 下载完成！');
+                    break;
+                    
+                case 'Failed':
+                    statusCard.classList.add('status-error');
+                    updateProgress(0);
+                    logMessage('💥 下载失败: ' + (downloadData.error || '未知错误'));
+                    break;
+            }
+        }
+        
+        function updateProgress(progress) {
+            const progressFill = document.getElementById('progress-fill');
+            const progressText = document.getElementById('progress-text');
+            
+            progressFill.style.width = progress + '%';
+            progressText.textContent = progress.toFixed(1) + '%';
+        }
+        
+        function updateVideoInfo(data) {
+            const fields = {
+                'video-title': data.videoTitle || '-',
+                'video-code': data.videoCode || '-',
+                'video-size': data.fileSize || '-',
+                'video-resolution': data.resolution || '-',
+                'video-duration': data.duration || '-',
+                'video-quality': data.quality || '-'
+            };
+            
+            for (const [id, value] of Object.entries(fields)) {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.textContent = value;
+                }
+            }
+        }
+        
+        function updateConnectionStatus(status, text) {
+            const statusElement = document.getElementById('connection-status');
+            statusElement.className = `connection-status ${status}`;
+            statusElement.textContent = text;
+        }
+        
+        function updateMessageStats() {
+            document.getElementById('missav-count').textContent = messageStats.missav_download_status;
+            document.getElementById('vcp-log-count').textContent = messageStats.vcp_log;
+            document.getElementById('other-count').textContent = messageStats.other;
+        }
+        
+        function logMessage(message) {
+            const logArea = document.getElementById('log-area');
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = `[${timestamp}] ${message}\n`;
+            
+            logArea.textContent += logEntry;
+            logArea.scrollTop = logArea.scrollHeight;
+        }
+        
+        function clearLog() {
+            document.getElementById('log-area').textContent = '';
+        }
+        
+        // 页面加载时自动连接
+        window.onload = function() {
+            logMessage('🚀 页面加载完成，准备连接 WebSocket');
+            connectWebSocket();
+        };
+        
+        // 页面关闭时断开连接
+        window.onbeforeunload = function() {
+            if (ws) {
+                ws.close();
+            }
+        };
+    </script>
+</body>
+</html>
